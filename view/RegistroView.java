@@ -1,6 +1,9 @@
 package view;
 
 import java.awt.EventQueue;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -39,6 +42,7 @@ public class RegistroView extends JFrame {
 	private JTextField PesoTextField;
 	private JTextField AlturaTextField;
 	private JTextField FechaNacimientoTextField;
+	private UsuarioController user = new UsuarioController();
 
 	/**
 	 * Launch the application.
@@ -257,10 +261,19 @@ public class RegistroView extends JFrame {
                     nuevoUsuario.setAlergias(alergias);
 
                     // Llamar al controlador para registrar el usuario
-                    UsuarioController controller = new UsuarioController();
-                    controller.registrarUsuario(nuevoUsuario);
+                    user.registrarUsuario(nuevoUsuario);
                     System.out.println(nuevoUsuario);
-                    System.out.println(controller.usuarios);
+                    System.out.println(user.usuarios);
+                    //Se almacena usuario en csv
+                    try {
+						user.escribirDatos(nuevoUsuario);
+					} catch (FileNotFoundException | UnsupportedEncodingException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
                     // Mostrar un mensaje de éxito
                     JOptionPane.showMessageDialog(contentPane, "Usuario registrado con éxito", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
