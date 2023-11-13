@@ -1,5 +1,6 @@
 package view;
 import java.awt.Color;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -31,7 +32,7 @@ public class InicioSesionView extends JFrame {
 	private JPanel contentPane;
 	private JTextField UserTextField;
 	private JPasswordField PasswordField;
-
+	private UsuarioController user = new UsuarioController();
 	/**
 	 * Launch the application.
 	 */
@@ -183,6 +184,8 @@ public class InicioSesionView extends JFrame {
 		JButton IniciarSesionButton = new JButton("Iniciar Sesión ");
 		IniciarSesionButton.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
+		    	user.leerDatos();
+		    	user.mostrarUsuarios();
 		        contraseñaDeUsuario = PasswordField.getText();
 		        nombreDeUsuario = UserTextField.getText();
 		        
@@ -193,24 +196,24 @@ public class InicioSesionView extends JFrame {
 		            PasswordEmpty.setVisible(true);
 		        } else {
 		            // Llamar al controlador para autenticar al usuario
-		            UsuarioController controller = new UsuarioController();
-		            System.out.println(controller.usuarios + "sadasdas");
-		            UsuarioModel usuarioAutenticado = controller.autenticarUsuario(nombreDeUsuario, contraseñaDeUsuario);
+		            System.out.println(user.usuarios + "sadasdas");
+		            UsuarioModel usuarioAutenticado = user.autenticarUsuario(nombreDeUsuario, contraseñaDeUsuario);
 		            
 
 		            if (usuarioAutenticado != null) {
 		                // Usuario autenticado con éxito
 		                // Puedes redirigir a una vista de perfil o realizar otras acciones aquí
 		                System.out.println("Inicio de sesión exitoso");
+		                // Realizar la acción de cambiar a otra ventana aquí
+		            	setVisible(false);
+		            	TableroPrincipalView ventanaSecundaria = new TableroPrincipalView();
+		                ventanaSecundaria.setVisible(true);
 		            } else {
 		                // Mostrar un mensaje de error si la autenticación falla
 		                System.out.println("Error: Credenciales incorrectas");
 		            }
 		        }
-		     // Realizar la acción de cambiar a otra ventana aquí
-            	setVisible(false);
-            	TableroPrincipalView ventanaSecundaria = new TableroPrincipalView();
-                ventanaSecundaria.setVisible(true);
+		    
 		    }
 		});
 		IniciarSesionButton.setBackground(new Color(64, 128, 128));
